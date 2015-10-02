@@ -32,6 +32,7 @@ class PagesFrontController extends DioscouriCore.Controller {
 
         // Set page data
         this.data.header = "Merchant Web";
+        this.data.param = this.request.params.id;
 
         /**
          * Set output view object
