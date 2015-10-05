@@ -31,7 +31,7 @@ class PagesFrontController extends DioscouriCore.Controller {
     load (dataReadyCallback) {
 
         // Set page data
-        this.data.header = "Merchant Web";
+        this.data.header = "Pages";
         this.data.param = this.request.params.id;
 
         /**

@@ -30,17 +30,13 @@ class PagesAdminController extends DioscouriCore.Controller {
         }
 
         // Set page data
-        this.data.header = "Admin Dashboard - Merchant Web 123";
-
-        this.data.__dirname = __dirname;
-
-        this.data.basePath = DioscouriCore.ApplicationFacade.instance.basePath;
+        this.data.header = "Admin Dashboard - Pages";
 
         /**
          * Set output view object
          */
-        //this.view(DioscouriCore.View.htmlView('app/views/merchantweb/admin/index.swig'));
         this.view(DioscouriCore.View.htmlView(viewsPath + '/admin/index.swig'));
+        this.view(DioscouriCore.ModuleView.htmlView(viewsPath + '/admin/index.swig'));
 
         // Send DATA_READY event
         dataReadyCallback(null);
