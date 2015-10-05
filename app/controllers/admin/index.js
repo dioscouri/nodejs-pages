@@ -5,7 +5,7 @@
 /**
  * Requiring Core Library
  */
-var DioscouriCore = require('dioscouri-core');
+var DioscouriCore = module.parent.require('dioscouri-core');
 
 var viewsPath = require("path").join(__dirname, '..', '..', 'views');
 

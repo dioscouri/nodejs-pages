@@ -3,11 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "dependencies": {
-    "async": ">=1.4.0",
-    "dotenv": ">=1.2.0",
-    "moment": ">=2.10.6",
-    "pkgcloud": "^1.2.0-alpha.0",
-    "randomstring": "^1.0.7"
+    "async": ">=1.4.0"
   },
   "devDependencies": {},
   "engines": {

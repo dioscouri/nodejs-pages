@@ -1,5 +1,4 @@
-// this must be refactored
-{% extends '../../../../../app/views/merchantweb/admin/layout.swig' %}
+{% extends 'app/views/merchantweb/admin/layout.swig' %}
 
 {% block title %}{{ header }}{% endblock %}
 

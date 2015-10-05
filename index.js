@@ -2,63 +2,82 @@
 "use strict";
 
 /**
- * Requiring core Events module
+ * Requiring Core Library
+ *
+ * WARNING: Core modules MUST be included from TOP Level Module.
+ * All dependencies for core module must be excluded from the package.json
  */
-var events = require('events');
+var DioscouriCore = process.mainModule.require('dioscouri-core');
 
-var DioscouriCore = require('dioscouri-core');
-
-var applicationFacade = DioscouriCore.ApplicationFacade.instance;
-
-class PagesApp extends events.EventEmitter {
+/**
+ * Loader class for the model
+ */
+class Loader extends DioscouriCore.ModuleBootstrap {
     /**
-     * Controller constructor
+     * Model loader constructor
      */
     constructor () {
+        // We must call super() in child class to have access to 'this' in a constructor
         super();
 
-        this._appName = 'Pages App';
+        /**
+         * Module name
+         *
+         * @type {null}
+         * @private
+         */
+        this._moduleName = 'Simple NodeJS Module';
 
-        this._appPath = __dirname;
-
-        this._routesPath = require("path").join(this._appPath, 'app', 'routes');
-
-        this._controllersPath = require("path").join(this._appPath, 'app', 'controllers');
-
-        this._modelsPath = require("path").join(this._appPath, 'app', 'models');
+        /**
+         * Module version
+         * @type {string}
+         * @private
+         */
+        this._moduleVersion = '0.0.1';
     }
 
     /**
-     * Returns App Name
-     *
-     * @returns {string}
-     */
-    get appName () {
-        return this._appName;
-    }
-
-    get routesPath () {
-        return this._routesPath;
-    }
-
-    get controllersPath () {
-        return this._controllersPath;
-    }
-
-    get modelsPath () {
-        return this._modelsPath;
-    }
-
-    /**
-     * Run application facade based on configuration settings
+     * Initializing module configuration
      */
     init () {
+        super.init();
 
+        // Loading module routes
+        this.applicationFacade.server.loadRoutes('/app/routes', __dirname);
+
+        // Loading models
+        this.applicationFacade.loadModels(__dirname + '/app/models');
+
+        // Checking Symbolic links
+        var fs = require('fs');
+        try {
+            if (!fs.existsSync(DioscouriCore.ApplicationFacade.instance.basePath + '/public/pages')) {
+                fs.symlinkSync(DioscouriCore.ApplicationFacade.instance.basePath + '/public/pages', __dirname + '/app/public', 'dir');
+            }
+        } catch (error) {
+            console.error('ERROR: Failed to create symbolic links');
+            console.error(error.message);
+        }
     }
 
+    /**
+     * Bootstrapping module
+     *
+     * MongoDB is available on this stage
+     */
+    bootstrap () {
+        super.bootstrap();
+    };
+
+    /**
+     * Run module based on configuration settings
+     */
     run () {
-
-    }
+        super.run();
+    };
 };
 
-module.exports = PagesApp;
+/**
+ * Exporting module classes and methods
+ */
+module.exports = Loader;

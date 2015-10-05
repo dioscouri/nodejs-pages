@@ -3,20 +3,37 @@
 "use strict";
 
 /**
- * Requiring base Model
+ * Requiring Core Library
  */
-var BaseModel = require('./basemodel.js');
+var DioscouriCore = require('dioscouri-core');
 
 /**
  *  Page model class
  */
-class PageModel extends BaseModel {
+class PageModel extends DioscouriCore.MongooseModel {
     /**
      * Model constructor
      */
     constructor (listName) {
         // We must call super() in child class to have access to 'this' in a constructor
         super(listName);
+    }
+
+    /**
+     * Define schema
+     */
+    defineSchema() {
+        var Types = this.mongoose.Schema.Types;
+
+        var schemaObject = {
+            title: {type: String, unique: true, required: true},
+            slug: {type: String, index: true, unique: true, required: true},
+            content: {type: String}
+        };
+
+        var PageDBOSchema = this.createSchema(schemaObject);
+
+        this.registerSchema(PageDBOSchema);
     }
 }
 
@@ -31,8 +48,3 @@ var modelInstance = new PageModel('page');
  * @type {Function}
  */
 exports = module.exports = modelInstance;
-
-/**
- * Initializing Schema for model
- */
-modelInstance.initSchema('/dbo/page.js', __dirname);
