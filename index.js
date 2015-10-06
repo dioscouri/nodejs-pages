@@ -26,7 +26,7 @@ class Loader extends DioscouriCore.AppBootstrap {
          * @type {null}
          * @private
          */
-        this._moduleName = 'Simple NodeJS Module';
+        this._moduleName = 'Pages App';
 
         /**
          * Module version
@@ -51,8 +51,8 @@ class Loader extends DioscouriCore.AppBootstrap {
         // Checking Symbolic links
         var fs = require('fs');
         try {
-            if (!fs.existsSync(DioscouriCore.ApplicationFacade.instance.basePath + '/public/pages')) {
-                fs.symlinkSync(DioscouriCore.ApplicationFacade.instance.basePath + '/public/pages', __dirname + '/app/public', 'dir');
+            if (!fs.existsSync(DioscouriCore.ApplicationFacade.instance.basePath + '/public/pages-app')) {
+                fs.symlinkSync(__dirname + '/public', DioscouriCore.ApplicationFacade.instance.basePath + '/public/pages-app', 'dir');
             }
         } catch (error) {
             console.error('ERROR: Failed to create symbolic links');
