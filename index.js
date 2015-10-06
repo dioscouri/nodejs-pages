@@ -12,7 +12,7 @@ var DioscouriCore = process.mainModule.require('dioscouri-core');
 /**
  * Loader class for the model
  */
-class Loader extends DioscouriCore.ModuleBootstrap {
+class Loader extends DioscouriCore.AppBootstrap {
     /**
      * Model loader constructor
      */
