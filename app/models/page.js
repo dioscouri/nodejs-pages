@@ -5,7 +5,7 @@
 /**
  * Requiring Core Library
  */
-var DioscouriCore = require('dioscouri-core');
+var DioscouriCore = process.mainModule.require('dioscouri-core');
 
 /**
  *  Page model class
@@ -17,6 +17,22 @@ class PageModel extends DioscouriCore.MongooseModel {
     constructor (listName) {
         // We must call super() in child class to have access to 'this' in a constructor
         super(listName);
+
+        try {
+            var currentModel = this.model;
+        } catch (err) {
+
+            if ('OverwriteModelError' === err.name) {
+                return this._logger.log('Model %s is already defined', this._list);
+            }
+
+            if ('MissingSchemaError' !== err.name) {
+                throw err;
+            }
+
+            // Defining current schema
+            this.defineSchema();
+        }
     }
 
     /**
@@ -27,7 +43,7 @@ class PageModel extends DioscouriCore.MongooseModel {
 
         var schemaObject = {
             title: {type: String, unique: true, required: true},
-            slug: {type: String, index: true, unique: true, required: true},
+            url: {type: String, index: true, unique: true, required: true},
             content: {type: String}
         };
 

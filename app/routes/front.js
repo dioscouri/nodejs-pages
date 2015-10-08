@@ -4,7 +4,7 @@
 
 module.exports = function () {
     var routes = {
-        'get|/p/:id': 'front/index.js'
+        'get|/:id': 'front/index.js'
     };
 
     return routes;

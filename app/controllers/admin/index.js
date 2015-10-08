@@ -7,41 +7,66 @@
  */
 var DioscouriCore = module.parent.require('dioscouri-core');
 
-var viewsPath = require("path").join(__dirname, '..', '..', 'views');
+/**
+ * Requiring base Controller
+ */
+var AdminBaseCrudController = require('./basecrud.js');
 
 /**
  *  PagesAdminController controller
  *
  *  @author Sanel Deljkic <dsanel@dioscouri.com>
  */
-class PagesAdminController extends DioscouriCore.Controller {
+class PagesAdminController extends AdminBaseCrudController {
 
     /**
-     * Load view file
-     *
-     * @param dataReadyCallback
+     * Controller constructor
      */
-    load (dataReadyCallback) {
-
-        if (!this.isAuthenticated()) {
-            this.terminate();
-            this.response.redirect('/admin/login');
-            return dataReadyCallback(null);
-        }
-
-        // Set page data
-        this.data.header = "Admin Dashboard - Pages";
+    constructor(request, response) {
+        // We must call super() in child class to have access to 'this' in a constructor
+        super(request, response);
 
         /**
-         * Set output view object
+         * Current CRUD model instance
+         *
+         * @type {*}
+         * @private
          */
-        this.view(DioscouriCore.View.htmlView(viewsPath + '/admin/index.swig'));
-        this.view(DioscouriCore.ModuleView.htmlView(viewsPath + '/admin/index.swig'));
+        this._model = require('../../models/page.js');
 
-        // Send DATA_READY event
-        dataReadyCallback(null);
+        /**
+         * Context of the controller
+         *
+         * @type {string}
+         * @private
+         */
+        this._baseUrl = '/admin/page';
+
+        /**
+         * Path to controller views
+         *
+         * @type {string}
+         * @private
+         */
+        this._viewsPath = '';
     }
 
+
+
+    /**
+     * Extract item from request
+     *
+     * @param item
+     * @returns {{}}
+     */
+    getItemFromRequest(item) {
+        var result = super.getItemFromRequest(item);
+
+        result.title = this.request.body.title;
+        result.url = this.request.body.url;
+
+        return result;
+    }
 };
 
 /**
