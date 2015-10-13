@@ -5,12 +5,12 @@
 /**
  * Requiring Core Library
  */
-var DioscouriCore = module.parent.require('dioscouri-core');
+var DioscouriCore = process.mainModule.require('dioscouri-core');
 
 /**
  * Requiring base Controller
  */
-var AdminBaseCrudController = require('./basecrud.js');
+var AdminBaseCrudController = DioscouriCore.ApplicationFacade.instance.registry.load('Admin.Controllers.BaseCRUD');
 
 /**
  *  PagesAdminController controller
@@ -48,7 +48,15 @@ class PagesAdminController extends AdminBaseCrudController {
          * @type {string}
          * @private
          */
-        this._viewsPath = '';
+        this._viewsPath = "admin";
+
+        /**
+         * Path to UI templates
+         *
+         * @type {string}
+         * @private
+         */
+        this._baseViewsDir = require('path').join(__dirname, '..', '..', 'views')
     }
 
 
@@ -64,6 +72,7 @@ class PagesAdminController extends AdminBaseCrudController {
 
         result.title = this.request.body.title;
         result.url = this.request.body.url;
+        result.content = this.request.body.content;
 
         return result;
     }

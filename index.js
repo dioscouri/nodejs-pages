@@ -48,11 +48,16 @@ class Loader extends DioscouriCore.AppBootstrap {
         // Loading models
         this.applicationFacade.loadModels(__dirname + '/app/models');
 
+        // Initializing Library Exports
+        this.applicationFacade.registry.push('Pages.Controllers.Admin.Index', Loader.Pages.Controllers.Admin.Index);
+        this.applicationFacade.registry.push('Pages.Controllers.Front.Index', Loader.Pages.Controllers.Front.Index);
+        this.applicationFacade.registry.push('Pages.Models.Page', Loader.Pages.Models.Page);
+
         // Checking Symbolic links
         var fs = require('fs');
         try {
-            if (!fs.existsSync(DioscouriCore.ApplicationFacade.instance.basePath + '/public/pages-app')) {
-                fs.symlinkSync(__dirname + '/public', DioscouriCore.ApplicationFacade.instance.basePath + '/public/pages-app', 'dir');
+            if (!fs.existsSync(DioscouriCore.ApplicationFacade.instance.basePath + '/public/pages')) {
+                fs.symlinkSync(__dirname + '/public', DioscouriCore.ApplicationFacade.instance.basePath + '/public/pages', 'dir');
             }
         } catch (error) {
             console.error('ERROR: Failed to create symbolic links');
@@ -75,6 +80,24 @@ class Loader extends DioscouriCore.AppBootstrap {
     run () {
         super.run();
     };
+};
+
+/**
+ * Exporting Library Classes
+ * @type {{Controllers: {Admin: {Index: (exports|module.exports)}, Front: {Index: (exports|module.exports)}}, Models: {Page: (PageModel|exports|module.exports)}}}
+ */
+Loader.Pages = {
+    Controllers: {
+        Admin: {
+            Index: require('./app/controllers/admin/index.js')
+        },
+        Front: {
+            Index: require('./app/controllers/front/index.js')
+        }
+    },
+    Models: {
+        Page: require('./app/models/page.js')
+    }
 };
 
 /**

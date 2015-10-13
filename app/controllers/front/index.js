@@ -3,11 +3,14 @@
 "use strict";
 
 /**
+ * Path module
+ */
+var path = require('path');
+
+/**
  * Requiring Core Library
  */
-var DioscouriCore = require('dioscouri-core');
-
-var viewsPath = require("path").join(__dirname, '..', '..', 'views');
+var DioscouriCore = process.mainModule.require('dioscouri-core');
 
 /**
  *  Base application controller
@@ -21,6 +24,13 @@ class PagesFrontController extends DioscouriCore.Controller {
     constructor (request, response) {
         // We must call super() in child class to have access to 'this' in a constructor
         super(request, response);
+
+        /***
+         * Location of views
+         * @type {string}
+         * @private
+         */
+        this._viewsPath = path.join(__dirname, '..', '..', 'views');
     }
 
     /**
@@ -29,19 +39,26 @@ class PagesFrontController extends DioscouriCore.Controller {
      * @param dataReadyCallback
      */
     load (dataReadyCallback) {
-
+        var that = this;
         // Set page data
-        this.data.header = "Pages";
-        this.data.param = this.request.params.id;
+        that.data.header = "Pages";
+        that.data.param = this.request.params.id;
+
+        var model = DioscouriCore.ApplicationFacade.instance.registry.load('Pages.Models.Page');
 
         /**
          * Set output view object
          */
-        this.view(DioscouriCore.View.htmlView(viewsPath + '/front/index.swig'));
+        that.view(DioscouriCore.ModuleView.htmlView(this._viewsPath + '/front/index.swig'));
 
+        model.findOne({url: this.data.param}, function(error, document){
+            if (document && document.content) {
+                that.data.header = document.title;
+                that.data.pageContent = document.content;
+            }
 
-        // Send DATA_READY event
-        dataReadyCallback(null);
+            dataReadyCallback(error);
+        });
     }
 };
 
