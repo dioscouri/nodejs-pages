@@ -10,7 +10,7 @@ var DioscouriCore = process.mainModule.require('dioscouri-core');
 /**
  *  Page model class
  */
-class PageModel extends DioscouriCore.MongooseModel {
+class CategoryModel extends DioscouriCore.MongooseModel {
     /**
      * Model constructor
      */
@@ -42,27 +42,22 @@ class PageModel extends DioscouriCore.MongooseModel {
         var Types = this.mongoose.Schema.Types;
 
         var schemaObject = {
-            title: {type: String, unique: true, required: true},
+            name: {type: String, required: true},
             slug: {type: String, index: true, unique: true, required: true},
-            content: {type: String},
-            categories: [{ type: Types.ObjectId, ref: 'category' }],
-            publication: {
-                status: {type: String},
-                start: {type: Date, 'default': Date.now},
-                end: {type: Date, 'default': Date.now}
-            }
+            parent: { type: Types.ObjectId, ref: 'category' },
+            ancestors: [{ type: Types.ObjectId, ref: 'category' }]
         };
 
-        var PageDBOSchema = this.createSchema(schemaObject);
+        var CategoryDBOSchema = this.createSchema(schemaObject);
 
-        this.registerSchema(PageDBOSchema);
+        this.registerSchema(CategoryDBOSchema);
     }
 }
 
 /**
  * Creating instance of the model
  */
-var modelInstance = new PageModel('page');
+var modelInstance = new CategoryModel('category');
 
 /**
  * Exporting Model

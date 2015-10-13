@@ -17,7 +17,7 @@ var AdminBaseCrudController = DioscouriCore.ApplicationFacade.instance.registry.
  *
  *  @author Sanel Deljkic <dsanel@dioscouri.com>
  */
-class PagesAdminController extends AdminBaseCrudController {
+class CategoriesAdminController extends AdminBaseCrudController {
 
     /**
      * Controller constructor
@@ -32,7 +32,7 @@ class PagesAdminController extends AdminBaseCrudController {
          * @type {*}
          * @private
          */
-        this._model = require('../../models/page.js');
+        this._model = require('../../models/category.js');
 
         /**
          * Context of the controller
@@ -40,7 +40,7 @@ class PagesAdminController extends AdminBaseCrudController {
          * @type {string}
          * @private
          */
-        this._baseUrl = '/admin/page';
+        this._baseUrl = '/admin/pages/category';
 
         /**
          * Path to controller views
@@ -48,7 +48,7 @@ class PagesAdminController extends AdminBaseCrudController {
          * @type {string}
          * @private
          */
-        this._viewsPath = "pages";
+        this._viewsPath = "categories";
 
         /**
          * Path to UI templates
@@ -71,10 +71,48 @@ class PagesAdminController extends AdminBaseCrudController {
         var result = super.getItemFromRequest(item);
 
         result.title = this.request.body.title;
-        result.slug = this.request.body.slug;
+        result.url = this.request.body.url;
         result.content = this.request.body.content;
 
         return result;
+    }
+
+    /**
+     * Create item
+     *
+     * @param readyCallback
+     */
+    create(readyCallback) {
+        super.create(function (err) {
+            if (err) {
+                return readyCallback(err);
+            }
+
+            this.loadParentCateories(readyCallback);
+        }.bind(this));
+    }
+
+    /**
+     * Edit item
+     *
+     * @param readyCallback
+     */
+    edit(readyCallback) {
+        super.edit(function (err) {
+            if (err) return readyCallback(err);
+
+            this.loadParentCateories(readyCallback);
+        }.bind(this));
+    }
+
+    loadParentCateories(readyCallback) {
+        this._model.getAll(function (err, categories) {
+            if (err) {
+                return readyCallback(err);
+            }
+            this.data.categories = categories;
+            readyCallback();
+        }.bind(this));
     }
 };
 
@@ -84,6 +122,6 @@ class PagesAdminController extends AdminBaseCrudController {
  * @type {Function}
  */
 exports = module.exports = function(request, response) {
-    var controller = new PagesAdminController(request, response);
+    var controller = new CategoriesAdminController(request, response);
     controller.run();
 };

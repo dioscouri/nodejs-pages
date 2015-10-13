@@ -33,7 +33,7 @@
                 {% set deleteUrl = baseUrl + '/' + row.id + '/delete' %}
                 <tr>
                     <td>{{ row.title }}</td>
-                    <td>{{ row.url }}</td>
+                    <td>{{ row.slug }}</td>
                     <td>
                         <a href="{{ editUrl }}" class="btn btn-primary btn-xs">Edit</a>
                         <a href="javascript:void(0)" class="btn btn-danger btn-xs"

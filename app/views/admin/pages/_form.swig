@@ -13,13 +13,13 @@
         </div>
     </div>
     <div class="form-group">
-        <label class="col-sm-2 control-label">Url</label>
+        <label class="col-sm-2 control-label">Slug</label>
         <div class="col-sm-10">
             <input type="text"
-                   placeholder="URL"
-                   name="url"
+                   placeholder="slug"
+                   name="slug"
                    class="form-control"
-                   value="{{ item.url }}"
+                   value="{{ item.slug }}"
                    required/>
         </div>
     </div>

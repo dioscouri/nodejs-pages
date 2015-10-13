@@ -52,6 +52,7 @@ class Loader extends DioscouriCore.AppBootstrap {
         this.applicationFacade.registry.push('Pages.Controllers.Admin.Index', Loader.Pages.Controllers.Admin.Index);
         this.applicationFacade.registry.push('Pages.Controllers.Front.Index', Loader.Pages.Controllers.Front.Index);
         this.applicationFacade.registry.push('Pages.Models.Page', Loader.Pages.Models.Page);
+        this.applicationFacade.registry.push('Pages.Models.Category', Loader.Pages.Models.Category);
 
         // Checking Symbolic links
         var fs = require('fs');
@@ -96,7 +97,8 @@ Loader.Pages = {
         }
     },
     Models: {
-        Page: require('./app/models/page.js')
+        Page: require('./app/models/page.js'),
+        Category: require('./app/models/category.js')
     }
 };
 
