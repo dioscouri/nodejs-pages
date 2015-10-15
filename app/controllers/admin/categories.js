@@ -2,6 +2,8 @@
 // Using STRICT mode for ES6 features
 "use strict";
 
+var _ = require('lodash');
+
 /**
  * Requiring Core Library
  */
@@ -121,7 +123,4 @@ class CategoriesAdminController extends AdminBaseCrudController {
  *
  * @type {Function}
  */
-exports = module.exports = function(request, response) {
-    var controller = new CategoriesAdminController(request, response);
-    controller.run();
-};
+exports = module.exports = CategoriesAdminController;

@@ -2,7 +2,9 @@
   "name": "nodejs-pages",
   "version": "0.0.1",
   "private": true,
-  "dependencies": {},
+  "dependencies": {
+    "lodash": "^3.10.1"
+  },
   "devDependencies": {},
   "engines": {
     "node": ">=4.1.1",

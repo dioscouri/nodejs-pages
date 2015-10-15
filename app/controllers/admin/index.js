@@ -2,6 +2,10 @@
 // Using STRICT mode for ES6 features
 "use strict";
 
+var moment = require("moment");
+
+var _ = require('lodash');
+
 /**
  * Requiring Core Library
  */
@@ -72,9 +76,95 @@ class PagesAdminController extends AdminBaseCrudController {
 
         result.title = this.request.body.title;
         result.slug = this.request.body.slug;
+        result.publication.start = moment(this.request.body.publication.start_date, "MM/DD/YYYY");
+        result.publication.end = moment(this.request.body.publication.end_date, "MM/DD/YYYY");
         result.content = this.request.body.content;
+        result.categories = this.request.body.categories || [];
 
         return result;
+    }
+
+    /**
+     * Create item
+     *
+     * @param readyCallback
+     */
+    create(readyCallback) {
+        super.create(function (err) {
+            if (err) {
+                return readyCallback(err);
+            }
+
+            this.loadCateories(readyCallback);
+        }.bind(this));
+    }
+
+    /**
+     * Edit item
+     *
+     * @param readyCallback
+     */
+    edit(readyCallback) {
+        super.edit(function (err) {
+            if (err) return readyCallback(err);
+
+            // Prepare data for SWIG template
+            this.data.selectedCategories = {};
+            _.each(this.data.item.categories, function( cat ){
+                this.data.selectedCategories[cat] = true;
+            }.bind(this));
+
+            if (this.data.item.publication) {
+                this.data.startDate = moment(this.data.item.publication.start).format("MM/DD/YYYY");
+                this.data.endDate = moment(this.data.item.publication.end).format("MM/DD/YYYY");
+            }
+
+            this.loadCategories(readyCallback);
+        }.bind(this));
+    }
+
+    loadCategories(readyCallback) {
+        var that = this;
+        require('../../models/category.js').getAll(function (err, categories) {
+            if (err) {
+                return readyCallback(err);
+            }
+
+            var rawCategories = _.map(categories, function(item) {
+                return item.toJSON()
+            });
+
+            this.data.categories = that.createCategoriesTree(rawCategories);
+
+            readyCallback();
+        }.bind(this));
+    }
+
+    createCategoriesTree(array, parent, tree ){
+        var that = this;
+        parent = parent ? parent : { };
+        tree = tree ? tree : [];
+
+        var children = _.filter( array, function(child){
+            if (parent._id) {
+                if (child.parent) {
+                    return child.parent.toString() == parent._id.toString();
+                }
+                return false;
+            }
+            return !child.parent;
+        });
+
+        if( !_.isEmpty( children )  ){
+            if(!parent._id){
+                tree = children;
+            }else{
+                parent['children'] = children
+            }
+            _.each( children, function( child ){ that.createCategoriesTree( array, child ) } );
+        }
+
+        return tree;
     }
 };
 
@@ -83,7 +173,4 @@ class PagesAdminController extends AdminBaseCrudController {
  *
  * @type {Function}
  */
-exports = module.exports = function(request, response) {
-    var controller = new PagesAdminController(request, response);
-    controller.run();
-};
+exports = module.exports = PagesAdminController;

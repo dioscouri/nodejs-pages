@@ -4,7 +4,7 @@
 
 {% block section %}
 
-<h1>All pages</h1>
+<h1>All pages in category</h1>
 <ul>
     {% for page in pages %}
     <li>

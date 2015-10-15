@@ -42,23 +42,26 @@ class PagesFrontController extends DioscouriCore.Controller {
         var that = this;
         // Set page data
         that.data.header = "Pages";
-        that.data.param = this.request.params.id;
+        that.data.slug = this.request.params.slug;
 
         var model = DioscouriCore.ApplicationFacade.instance.registry.load('Pages.Models.Page');
 
-        /**
-         * Set output view object
-         */
-        that.view(DioscouriCore.ModuleView.htmlView(this._viewsPath + '/front/index.swig'));
-
-        model.findOne({slug: this.data.param}, function(error, document){
-            if (document && document.content) {
-                that.data.header = document.title;
-                that.data.pageContent = document.content;
-            }
-
-            dataReadyCallback(error);
-        });
+        if (this.request.params.slug) {
+            that.view(DioscouriCore.ModuleView.htmlView(this._viewsPath + '/front/page_slug.swig'));
+            model.findOne({slug: this.data.slug}, function(error, document){
+                if (document && document.content) {
+                    that.data.header = document.title;
+                    that.data.pageContent = document.content;
+                }
+                dataReadyCallback(error);
+            });
+        } else {
+            that.view(DioscouriCore.ModuleView.htmlView(this._viewsPath + '/front/index.swig'));
+            model.getAll(function(error, documents){
+                that.data.pages = documents;
+                dataReadyCallback(error);
+            });
+        }
     }
 };
 
@@ -67,7 +70,4 @@ class PagesFrontController extends DioscouriCore.Controller {
  *
  * @type {Function}
  */
-exports = module.exports = function(request, response) {
-    var controller = new PagesFrontController(request, response);
-    controller.run();
-};
+exports = module.exports = PagesFrontController;
