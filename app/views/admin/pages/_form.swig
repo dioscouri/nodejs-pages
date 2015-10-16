@@ -1,6 +1,3 @@
-<script src="//cdn.ckeditor.com/4.5.4/standard/ckeditor.js"></script>
-<script src="https://code.jquery.com/ui/1.11.3/jquery-ui.min.js"></script>
-
 <form action="{{ actionUrl }}" method="post" class="form-horizontal form-bordered">
     <div class="form-group">
         <label class="col-sm-2 control-label">Title</label>
