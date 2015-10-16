@@ -4,6 +4,9 @@
 
 var moment = require("moment");
 
+/**
+ * Requiring lodash library
+ */
 var _ = require('lodash');
 
 /**
@@ -15,6 +18,13 @@ var DioscouriCore = process.mainModule.require('dioscouri-core');
  * Requiring base Controller
  */
 var AdminBaseCrudController = DioscouriCore.ApplicationFacade.instance.registry.load('Admin.Controllers.BaseCRUD');
+
+/**
+ * Requiring SwigHelpers util
+ */
+var SwigHelpers = require("../../utils/swigHelpers.js");
+
+var CategoryModel = require('../../models/category.js');
 
 /**
  *  PagesAdminController controller
@@ -95,7 +105,8 @@ class PagesAdminController extends AdminBaseCrudController {
                 return readyCallback(err);
             }
 
-            this.loadCateories(readyCallback);
+            this.data.appUrl = this.getActionUrl('list');
+            this.loadCategoriesInTree(readyCallback);
         }.bind(this));
     }
 
@@ -108,6 +119,8 @@ class PagesAdminController extends AdminBaseCrudController {
         super.edit(function (err) {
             if (err) return readyCallback(err);
 
+            this.data.appUrl = this.getActionUrl('list');
+
             // Prepare data for SWIG template
             this.data.selectedCategories = {};
             _.each(this.data.item.categories, function( cat ){
@@ -119,52 +132,25 @@ class PagesAdminController extends AdminBaseCrudController {
                 this.data.endDate = moment(this.data.item.publication.end).format("MM/DD/YYYY");
             }
 
-            this.loadCategories(readyCallback);
+            this.loadCategoriesInTree(readyCallback);
         }.bind(this));
     }
 
-    loadCategories(readyCallback) {
-        var that = this;
-        require('../../models/category.js').getAll(function (err, categories) {
+    /**
+     * Load all categories from DB and create tree structure
+     * @param callback
+     */
+    loadCategoriesInTree(callback) {
+        CategoryModel.getAll(function (err, categories) {
             if (err) {
-                return readyCallback(err);
+                return callback(err);
             }
-
             var rawCategories = _.map(categories, function(item) {
                 return item.toJSON()
             });
-
-            this.data.categories = that.createCategoriesTree(rawCategories);
-
-            readyCallback();
+            this.data.categories = SwigHelpers.createCategorieTree(rawCategories);
+            callback();
         }.bind(this));
-    }
-
-    createCategoriesTree(array, parent, tree ){
-        var that = this;
-        parent = parent ? parent : { };
-        tree = tree ? tree : [];
-
-        var children = _.filter( array, function(child){
-            if (parent._id) {
-                if (child.parent) {
-                    return child.parent.toString() == parent._id.toString();
-                }
-                return false;
-            }
-            return !child.parent;
-        });
-
-        if( !_.isEmpty( children )  ){
-            if(!parent._id){
-                tree = children;
-            }else{
-                parent['children'] = children
-            }
-            _.each( children, function( child ){ that.createCategoriesTree( array, child ) } );
-        }
-
-        return tree;
     }
 };
 

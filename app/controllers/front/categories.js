@@ -15,6 +15,11 @@ var path = require('path');
 var DioscouriCore = process.mainModule.require('dioscouri-core');
 
 /**
+ * Requiring SwigHelpers util
+ */
+var SwigHelpers = require("../../utils/swigHelpers.js");
+
+/**
  *  Base application controller
  *
  *  @author Sanel Deljkic <dsanel@dioscouri.com>
@@ -33,6 +38,16 @@ class CategoriesFrontController extends DioscouriCore.Controller {
          * @private
          */
         this._viewsPath = path.join(__dirname, '..', '..', 'views');
+
+        /**
+         * Category model
+         */
+        this._modelCategory = DioscouriCore.ApplicationFacade.instance.registry.load('Pages.Models.Category');
+
+        /**
+         * Page model
+         */
+        this._modelPage = DioscouriCore.ApplicationFacade.instance.registry.load('Pages.Models.Page');
     }
 
     /**
@@ -42,65 +57,54 @@ class CategoriesFrontController extends DioscouriCore.Controller {
      */
     load (dataReadyCallback) {
         var that = this;
+        var slug = this.request.params.slug;
         that.data.header = "Pages";
 
-        var modelCategory = DioscouriCore.ApplicationFacade.instance.registry.load('Pages.Models.Category');
-        var modelPage = DioscouriCore.ApplicationFacade.instance.registry.load('Pages.Models.Page');
-
-        if (that.request.params.slug) {
-            that.view(DioscouriCore.ModuleView.htmlView(this._viewsPath + '/front/category_slug.swig'));
-            modelCategory.findOne({slug: that.request.params.slug}, function(error, category){
-                if (error) {
-                    return dataReadyCallback(error);
-                }
-                if (category) {
-                    modelPage.model.find({categories: category._id}, function (err, pages) {
-                        that.data.pages = pages;
-                        dataReadyCallback(err);
-                    });
-                } else {
-                    dataReadyCallback();
-                }
-            });
-
-
+        if (slug) {
+            this.view(DioscouriCore.ModuleView.htmlView(this._viewsPath + '/front/category_slug.swig'));
+            this.loadPagesByCategorySlug(slug, dataReadyCallback);
         } else {
-            that.view(DioscouriCore.ModuleView.htmlView(this._viewsPath + '/front/categories.swig'));
-            modelCategory.getAll(function(error, categories){
-                var rawCategories = _.map(categories, function(item) {
-                    return item.toJSON()
-                });
-                that.data.categories = that.createCategorieTree(rawCategories);
-                dataReadyCallback();
-            });
+            this.view(DioscouriCore.ModuleView.htmlView(this._viewsPath + '/front/categories.swig'));
+            this.loadCategoriesInTree(dataReadyCallback);
         }
     }
 
-    createCategorieTree(array, parent, tree ){
-        var that = this;
-        parent = parent ? parent : { };
-        tree = tree ? tree : [];
-
-        var children = _.filter( array, function(child){
-            if (parent._id) {
-                if (child.parent) {
-                    return child.parent.toString() == parent._id.toString();
-                }
-                return false;
+    /**
+     * Find all pages associated to specified category slug
+     * @param slug
+     * @param callback
+     */
+    loadPagesByCategorySlug (slug, callback) {
+        this._modelCategory.findOne({slug: slug}, function(error, category){
+            if (error) {
+                return callback(error);
             }
-            return !child.parent;
-        });
-
-        if( !_.isEmpty( children )  ){
-            if(!parent._id){
-                tree = children;
-            }else{
-                parent['children'] = children
+            if (category) {
+                this._modelPage.model.find({categories: category._id}, function (err, pages) {
+                    this.data.pages = pages;
+                    callback(err);
+                }.bind(this));
+            } else {
+                callback();
             }
-            _.each( children, function( child ){ that.createCateoriesTree( array, child ) } );
-        }
+        }.bind(this));
+    }
 
-        return tree;
+    /**
+     * Load all categories from DB and create tree structure
+     * @param callback
+     */
+    loadCategoriesInTree (callback) {
+        this._modelCategory.getAll(function(error, categories){
+            if (error) {
+                return callback(error);
+            }
+            var rawCategories = _.map(categories, function(item) {
+                return item.toJSON()
+            });
+            this.data.categories = SwigHelpers.createCategorieTree(rawCategories);
+            callback();
+        }.bind(this));
     }
 };
 

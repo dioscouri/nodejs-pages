@@ -113,7 +113,7 @@
 
         <div class="col-sm-10">
             <button type="submit" class="btn btn-success">Save</button>
-            <button type="button" class="btn btn-default">Cancel</button>
+            <a href="{{appUrl}}" class="btn btn-default">Cancel</a>
         </div>
     </div>
 </form>

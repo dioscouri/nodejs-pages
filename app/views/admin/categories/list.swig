@@ -13,7 +13,6 @@
 
         </div>
         <div class="col-xs-6">
-            {{ createUrl }}
             <a href="{{ createUrl }}" class="btn btn-success pull-right">Create New</a>
         </div>
     </div>

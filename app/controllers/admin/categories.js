@@ -90,6 +90,7 @@ class CategoriesAdminController extends AdminBaseCrudController {
                 return readyCallback(err);
             }
 
+            this.data.appUrl = this.getActionUrl('list');
             this.loadParentCateories(readyCallback);
         }.bind(this));
     }
@@ -103,6 +104,7 @@ class CategoriesAdminController extends AdminBaseCrudController {
         super.edit(function (err) {
             if (err) return readyCallback(err);
 
+            this.data.appUrl = this.getActionUrl('list');
             this.loadParentCateories(readyCallback);
         }.bind(this));
     }
