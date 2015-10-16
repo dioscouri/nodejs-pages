@@ -13,3 +13,24 @@
         </div>
     </div>
 {% endblock %}
+
+<script>
+    jQuery(document).ready(function(){
+        CKEDITOR.replace('content');
+
+        jQuery('#datepicker_start').datepicker({
+            dateFormat: "mm/dd/yy"
+        });
+        jQuery('#datepicker_end').datepicker({
+            dateFormat: "mm/dd/yy"
+        });
+    });
+</script>
+
+{% block page_js %}
+<script>
+    jQuery(document).ready(function(){
+        jQuery('#content').ckeditor();
+    });
+</script>
+{% endblock %}

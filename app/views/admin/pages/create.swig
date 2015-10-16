@@ -13,3 +13,11 @@
         </div>
     </div>
 {% endblock %}
+
+{% block page_js %}
+<script>
+    jQuery(document).ready(function(){
+        jQuery('#content').ckeditor();
+    });
+</script>
+{% endblock %}

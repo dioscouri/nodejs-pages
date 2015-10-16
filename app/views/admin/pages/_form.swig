@@ -78,7 +78,7 @@
     <div class="form-group">
         <label class="col-sm-2 control-label">Content</label>
         <div class="col-sm-10">
-            <textarea name="content">{{ item.content }}</textarea>
+            <textarea id="content" name="content">{{ item.content }}</textarea>
         </div>
     </div>
     <div class="form-group">
@@ -117,15 +117,3 @@
         </div>
     </div>
 </form>
-<script>
-    jQuery(document).ready(function(){
-        CKEDITOR.replace('content');
-
-        jQuery('#datepicker_start').datepicker({
-            dateFormat: "mm/dd/yy"
-        });
-        jQuery('#datepicker_end').datepicker({
-            dateFormat: "mm/dd/yy"
-        });
-    });
-</script>
