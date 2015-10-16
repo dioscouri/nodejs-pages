@@ -72,9 +72,9 @@ class CategoriesAdminController extends AdminBaseCrudController {
     getItemFromRequest(item) {
         var result = super.getItemFromRequest(item);
 
-        result.title = this.request.body.title;
-        result.url = this.request.body.url;
-        result.content = this.request.body.content;
+        result.name = this.request.body.name;
+        result.slug = this.request.body.slug;
+        result.parent = this.request.body.parent || null;
 
         return result;
     }
