@@ -50,7 +50,7 @@
         </div>
         <div class="col-sm-3">
             <div class="input-group">
-                <div class="bootstrap-timepicker"><input id="timepicker" type="text" class="form-control"/></div>
+                <div class="bootstrap-timepicker"><input id="timepicker_start" type="text" class="form-control"/></div>
                 <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
             </div>
         </div>
@@ -70,7 +70,7 @@
         </div>
         <div class="col-sm-3">
             <div class="input-group">
-                <div class="bootstrap-timepicker"><input id="timepicker" type="text" class="form-control"/></div>
+                <div class="bootstrap-timepicker"><input id="timepicker_end" type="text" class="form-control"/></div>
                 <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
             </div>
         </div>

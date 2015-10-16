@@ -18,6 +18,11 @@
 <script>
     jQuery(document).ready(function(){
         jQuery('#content').ckeditor();
+        jQuery('#datepicker_start').datepicker({dateFormat: "mm/dd/yy"});
+        jQuery('#datepicker_end').datepicker({dateFormat: "mm/dd/yy"});
+
+        jQuery('#timepicker_start').timepicker({defaultTIme: false});
+        jQuery('#timepicker_end').timepicker({defaultTIme: false});
     });
 </script>
 {% endblock %}
