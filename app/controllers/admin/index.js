@@ -86,12 +86,40 @@ class PagesAdminController extends AdminBaseCrudController {
 
         result.title = this.request.body.title;
         result.slug = this.request.body.slug;
-        result.publication.start = moment(this.request.body.publication.start_date, "MM/DD/YYYY");
-        result.publication.end = moment(this.request.body.publication.end_date, "MM/DD/YYYY");
         result.content = this.request.body.content;
         result.categories = this.request.body.categories || [];
 
+        var startDateStr = this.request.body.publication.start_date;
+        var startTimeStr = this.request.body.publication.start_time;
+        if (startDateStr && startTimeStr) {
+            result.publication.start = moment(startDateStr + " " + startTimeStr, "MM/DD/YYYY hh:mm A");
+        } else {
+            result.publication.start = moment();
+        }
+
+        var endDateStr = this.request.body.publication.end_date;
+        var endTimeStr = this.request.body.publication.end_time;
+        if (endDateStr && endTimeStr) {
+            result.publication.end = moment(endDateStr + " " + endTimeStr, "MM/DD/YYYY hh:mm A");
+        } else {
+            result.publication.end = moment();
+        }
+
         return result;
+    }
+
+    load(readyCallback) {
+        super.load(function (err) {
+            if (err) {
+                return readyCallback(err);
+            }
+
+            this.data.formatDateTime = function (date, format) {
+                return moment(date).format(format);
+            };
+
+            readyCallback();
+        }.bind(this));
     }
 
     /**
@@ -104,6 +132,11 @@ class PagesAdminController extends AdminBaseCrudController {
             if (err) {
                 return readyCallback(err);
             }
+
+            this.data.startDate = moment().format("MM/DD/YYYY");
+            this.data.endDate = moment().format("MM/DD/YYYY");
+            this.data.startTime = moment().format("hh:mm A");
+            this.data.endTime = moment().format("hh:mm A");
 
             this.data.appUrl = this.getActionUrl('list');
             this.loadCategoriesInTree(readyCallback);
@@ -130,6 +163,9 @@ class PagesAdminController extends AdminBaseCrudController {
             if (this.data.item.publication) {
                 this.data.startDate = moment(this.data.item.publication.start).format("MM/DD/YYYY");
                 this.data.endDate = moment(this.data.item.publication.end).format("MM/DD/YYYY");
+
+                this.data.startTime = moment(this.data.item.publication.start).format("hh:mm A");
+                this.data.endTime = moment(this.data.item.publication.end).format("hh:mm A");
             }
 
             this.loadCategoriesInTree(readyCallback);

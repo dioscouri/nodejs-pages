@@ -47,7 +47,13 @@
         </div>
         <div class="col-sm-3">
             <div class="input-group">
-                <div class="bootstrap-timepicker"><input id="timepicker_start" type="text" class="form-control"/></div>
+                <div class="bootstrap-timepicker">
+                    <input id="timepicker_start"
+                           name="publication[start_time]"
+                           type="text"
+                           class="form-control"
+                           value="{{ startTime }}"/>
+                </div>
                 <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
             </div>
         </div>
@@ -67,7 +73,13 @@
         </div>
         <div class="col-sm-3">
             <div class="input-group">
-                <div class="bootstrap-timepicker"><input id="timepicker_end" type="text" class="form-control"/></div>
+                <div class="bootstrap-timepicker">
+                    <input id="timepicker_end"
+                           name="publication[end_time]"
+                           type="text"
+                           class="form-control"
+                           value="{{ endTime }}"/>
+                </div>
                 <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
             </div>
         </div>
