@@ -10,6 +10,11 @@
 var DioscouriCore = process.mainModule.require('dioscouri-core');
 
 /**
+ *  Navigation model from nodejs-admin app
+ */
+var NavigationModel = DioscouriCore.ApplicationFacade.instance.registry.load('Admin.Models.Navigation');
+
+/**
  * Loader class for the model
  */
 class Loader extends DioscouriCore.AppBootstrap {
@@ -73,6 +78,24 @@ class Loader extends DioscouriCore.AppBootstrap {
      */
     bootstrap () {
         super.bootstrap();
+
+        NavigationModel.create({
+            name: 'Pages',
+            icon: 'fa-file-o',
+            order: 103
+        });
+
+        NavigationModel.create({
+            name: 'Pages Management',
+            url: '/admin/pages',
+            parent: 'Pages'
+        });
+
+        NavigationModel.create({
+            name: 'Categories',
+            url: '/admin/pages/categorys',
+            parent: 'Pages'
+        });
     };
 
     /**
