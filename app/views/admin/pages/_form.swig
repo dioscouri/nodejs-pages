@@ -24,7 +24,7 @@
     <div class="form-group">
         <label class="col-sm-2 control-label">Status</label>
         <div class="col-sm-10">
-            <select class="width100p" name="publication[status]" class="form-control">
+            <select class="form-control" name="publication[status]" class="form-control">
                 <option value="draft" {% if item.publication.status === "draft" %}selected{% endif %}>Draft</option>
                 <option value="pending" {% if item.publication.status === "pending" %}selected{% endif %}>Pending Review</option>
                 <option value="published" {% if item.publication.status === "published" %}selected{% endif %}>Published</option>
@@ -123,6 +123,9 @@
         <div class="col-sm-10">
             <button type="submit" class="btn btn-success">Save</button>
             <a href="{{appUrl}}" class="btn btn-default">Cancel</a>
+            {% if item.slug %}
+            <a href="/pages/{{ item.slug }}" target="_blank" class="btn btn-info pull-right">Preview</a>
+            {% endif %}
         </div>
     </div>
 </form>

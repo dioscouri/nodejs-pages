@@ -17,7 +17,6 @@
     </div>
 </div>
 <br>
-{{ formatDateTime() }}
 <table class="table table-striped table-bordered">
     <thead>
     <tr>
@@ -25,7 +24,7 @@
         <td>Slug</td>
         <td style="width: 100px">Status</td>
         <td style="width: 300px">Start - Finish</td>
-        <td style="width: 120px;"></td>
+        <td style="width: 185px;"></td>
     </tr>
     </thead>
     <tbody>
@@ -43,6 +42,7 @@
             <a href="{{ editUrl }}" class="btn btn-primary btn-xs">Edit</a>
             <a href="javascript:void(0)" class="btn btn-danger btn-xs"
                onclick="if (confirm('Are you sure you want to delete this record?')) {document.location.href = '{{ deleteUrl }}';}">Delete</a>
+            <a href="/pages/{{ row.slug }}" target="_blank" class="btn btn-info btn-xs">Preview</a>
         </td>
     </tr>
     {% endfor %}

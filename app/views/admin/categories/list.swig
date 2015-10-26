@@ -22,7 +22,7 @@
         <tr>
             <td>Title</td>
             <td>Url</td>
-            <td width="120px"></td>
+            <td width="185px"></td>
         </tr>
         </thead>
         <tbody>
@@ -38,6 +38,7 @@
                         <a href="{{ editUrl }}" class="btn btn-primary btn-xs">Edit</a>
                         <a href="javascript:void(0)" class="btn btn-danger btn-xs"
                            onclick="if (confirm('Are you sure you want to delete this record?')) {document.location.href = '{{ deleteUrl }}';}">Delete</a>
+                        <a href="/pages/categories/{{ row.slug }}" target="_blank" class="btn btn-info btn-xs">Preview</a>
                     </td>
                 </tr>
             {% endfor %}

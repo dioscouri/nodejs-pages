@@ -39,6 +39,9 @@
         <div class="col-sm-10">
             <button type="submit" class="btn btn-success">Save</button>
             <a href="{{appUrl}}" class="btn btn-default">Cancel</a>
+            {% if item.slug %}
+            <a href="/pages/categories/{{ item.slug }}" target="_blank" class="btn btn-info pull-right">Preview</a>
+            {% endif %}
         </div>
     </div>
 </form>
