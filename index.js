@@ -93,7 +93,7 @@ class Loader extends DioscouriCore.AppBootstrap {
 
         NavigationModel.create({
             name: 'Categories',
-            url: '/admin/pages/categorys',
+            url: '/admin/pages/categories',
             parent: 'Pages'
         });
     };

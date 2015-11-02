@@ -54,7 +54,7 @@ class PagesAdminController extends AdminBaseCrudController {
          * @type {string}
          * @private
          */
-        this._baseUrl = '/admin/page';
+        this._baseUrl = '/admin/pages';
 
         /**
          * Path to controller views
