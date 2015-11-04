@@ -71,6 +71,14 @@ class PagesAdminController extends AdminBaseCrudController {
          * @private
          */
         this._baseViewsDir = require('path').join(__dirname, '..', '..', 'views', 'admin')
+
+        /**
+         * Mongoose Searchable fields
+         *
+         * @type {string[]}
+         * @private
+         */
+        this._modelSearchableFields = ['title', 'slug'];
     }
 
 
@@ -139,6 +147,27 @@ class PagesAdminController extends AdminBaseCrudController {
             this.data.endTime = moment().format("hh:mm A");
 
             this.data.appUrl = this.getActionUrl('list');
+            this.loadCategoriesInTree(readyCallback);
+        }.bind(this));
+    }
+
+    /**
+     * Create item
+     *
+     * @param readyCallback
+     */
+    doView(readyCallback) {
+        super.doView(function (err) {
+            if (err) {
+                return readyCallback(err);
+            }
+
+            // Prepare data for SWIG template
+            this.data.selectedCategories = {};
+            _.each(this.data.item.categories, function( cat ){
+                this.data.selectedCategories[cat] = true;
+            }.bind(this));
+
             this.loadCategoriesInTree(readyCallback);
         }.bind(this));
     }

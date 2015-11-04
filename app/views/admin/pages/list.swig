@@ -44,25 +44,24 @@
                         <div class="list-group-item-body">
                             <div class="pull-right media-option">
                                 <small style="display: none;">July 10 1:10pm</small>
-                                <small>{{ row.modifiedAt.toString("") }}</small>
                                 <div class="btn-group">
                                     <a class="btn btn-default dropdown-toggle" data-toggle="dropdown">
                                         <i class="fa fa-cog"></i>
                                     </a>
                                     <ul class="dropdown-menu pull-right" role="menu">
-                                        <li><a href="{{ viewUrl }}">Edit</a></li>
+                                        <li><a href="{{ viewUrl }}">View</a></li>
                                         <li>
                                             <a href="javascript:void(0)"
                                                onclick="if (confirm('Are you sure you want to delete this record?')) {document.location.href = '{{ deleteUrl }}';}">Delete</a>
                                         </li>
                                         <li class="divider"></li>
-                                        <li><a href="/{{ row.slug }}" target="_blank" >Preview</a></li>
+                                        <li><a href="/pages/{{ row.slug }}" target="_blank" >Preview</a></li>
                                     </ul>
                                 </div>
                             </div>
                             <a href="{{ viewUrl }}"><h4 class="sender">{{ row.title }}</h4></a>
-                            <p>Slug: <b>{{ row.slug }}</b></p>
-                            {% autoescape false %}{{ row.short_description }}{% endautoescape %}
+                            <p>Slug: <b>{{ row.slug }}</b> Status: <b>{{ row.publication.status }}</b></p>
+                            <p>{{ formatDateTime(row.publication.start, "MM/DD/YYYY hh:mm A") + " - " + formatDateTime(row.publication.end, "MM/DD/YYYY hh:mm A")  }}</p>
                         </div>
                     </div>
                     {% endfor %}
