@@ -2,27 +2,34 @@
 
 {% block title %}{{ header }}{% endblock %}
 
-{% block pageheader %}
-    {% include "app/views/admin/partials/pageheader.swig" with { 'pageTitle': 'Pages Management - Create New Page'} %}
-{% endblock %}
-
-{% block pagecontent %}
-    <div class="panel">
-        <div class="panel-body">
-            {% include "_form.swig" %}
+{% block mainpanel %}
+<form action="{{ actionUrl }}" name="itemForm"  method="post" class="form-horizontal form-bordered">
+    {{ pageheader({title: "Page Management - Create New Page", showSaveButton: true, showCloseButton: true}) }}
+    <div class="contentpanel">
+        {% include "app/views/admin/partials/messages.swig" %}
+        <div class="row">
+            <div class="col-sm-3 col-md-3 col-lg-2">
+                <h5 class="sm-title">Detail Tabs</h5>
+                <ul class="nav nav-pills nav-stacked nav-msg">
+                    <li role="presentation" class="active">
+                        <a href="#tab-basics" aria-controls="tab-basics" role="tab" data-toggle="tab">Basics</a>
+                    </li>
+                    <li role="presentation">
+                        <a href="#tab-categories" aria-controls="tab-categories" role="tab" data-toggle="tab">Categories</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-sm-9 col-md-9 col-lg-10">
+                {% include "_form.swig" %}
+            </div>
         </div>
     </div>
+
+</form>
 {% endblock %}
 
 {% block page_js %}
 <script>
-    jQuery(document).ready(function(){
-        jQuery('#content').ckeditor();
-        jQuery('#datepicker_start').datepicker({dateFormat: "mm/dd/yy"});
-        jQuery('#datepicker_end').datepicker({dateFormat: "mm/dd/yy"});
-
-        jQuery('#timepicker_start').timepicker({defaultTIme: false});
-        jQuery('#timepicker_end').timepicker({defaultTIme: false});
-    });
+    {% include "pages.js" %}
 </script>
 {% endblock %}

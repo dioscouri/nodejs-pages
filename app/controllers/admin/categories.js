@@ -42,7 +42,7 @@ class CategoriesAdminController extends AdminBaseCrudController {
          * @type {string}
          * @private
          */
-        this._baseUrl = '/admin/pages/category';
+        this._baseUrl = '/admin/pages/categories';
 
         /**
          * Path to controller views
