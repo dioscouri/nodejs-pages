@@ -5,11 +5,11 @@
 {% block mainpanel %}
 <form action="{{ actionUrl }}" method="post" class="form-horizontal form-bordered">
     {%
-    include "app/views/admin/partials/pageheader.swig" with {
-    'pageTitle': 'Page Management - Edit Page',
-    'showSaveButton': true,
-    'showCloseButton': true
-    }
+        include "app/views/admin/partials/pageheader.swig" with {
+            'pageTitle': 'Page Management - Edit Page',
+            'showSaveButton': true,
+            'showCloseButton': true
+        }
     %}
     <div class="contentpanel">
         {% include "app/views/admin/partials/messages.swig" %}

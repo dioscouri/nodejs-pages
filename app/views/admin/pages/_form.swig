@@ -99,7 +99,7 @@
             </div>
         </div>
     </div>
-    <!-- Basics attributes -->
+    <!-- Categories -->
     <div role="tabpanel" class="tab-pane" id="tab-categories">
         <div class="panel panel-default">
             <div class="panel-body nopadding">
