@@ -3,11 +3,7 @@
 {% block title %}{{ header }}{% endblock %}
 
 {% block pageheader %}
-    {% include "app/views/admin/partials/pageheader.swig" with {
-        'pageTitle': 'Page Details',
-        'showEditButton': true,
-        'showCloseButton': true
-    } %}
+    {{ pageheader({title: "Page Details", showEditButton: true, showCloseButton: true}) }}
 {% endblock %}
 
 {% block pagecontent %}

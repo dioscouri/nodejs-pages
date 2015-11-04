@@ -3,10 +3,9 @@
 {% block title %}{{ header }}{% endblock %}
 
 {% block mainpanel %}
-    {% include "app/views/admin/partials/pageheader.swig" with { 'pageTitle': 'Pages Management'} %}
+    {{ pageheader({title: "Pages Management"}) }}
     <div class="contentpanel">
         {% include "app/views/admin/partials/messages.swig" %}
-
         <div class="row">
             <div class="col-sm-3 col-md-3 col-lg-2">
                 <p><a href="{{ createUrl }}" class="btn btn-success btn-block btn-create-msg">Create New</a></p>

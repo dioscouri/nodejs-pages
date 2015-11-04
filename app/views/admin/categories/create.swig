@@ -3,14 +3,8 @@
 {% block title %}{{ header }}{% endblock %}
 
 {% block mainpanel %}
-<form action="{{ actionUrl }}" method="post" class="form-horizontal form-bordered">
-    {%
-        include "app/views/admin/partials/pageheader.swig" with {
-            'pageTitle': 'Page Category Management - Create Category',
-            'showSaveButton': true,
-            'showCloseButton': true
-        }
-    %}
+<form action="{{ actionUrl }}" name="itemForm"  method="post" class="form-horizontal form-bordered">
+    {{ pageheader({title: "Page Category Management - Create Category", showSaveButton: true, showCloseButton: true}) }}
     <div class="contentpanel">
         {% include "app/views/admin/partials/messages.swig" %}
         <div class="row">

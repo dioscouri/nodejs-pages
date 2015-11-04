@@ -3,7 +3,7 @@
 {% block title %}{{ header }}{% endblock %}
 
 {% block mainpanel %}
-    {% include "app/views/admin/partials/pageheader.swig" with { 'pageTitle': 'Pages Categories Management'} %}
+    {{ pageheader({title: "Page Categories Management"}) }}
     <div class="contentpanel">
         {% include "app/views/admin/partials/messages.swig" %}
         <div class="row">
