@@ -8,7 +8,7 @@
         {% include "app/views/admin/partials/messages.swig" %}
         <div class="row">
             <div class="col-sm-3 col-md-3 col-lg-2">
-                <p><a href="{{ createUrl }}" class="btn btn-success btn-block btn-create-msg">Create New</a></p>
+                <p><a href="{{ createActionUrl }}" class="btn btn-success btn-block btn-create-msg">Create New</a></p>
                 {{ search() }}
             </div>
             <div class="col-sm-9 col-md-9 col-lg-10">
