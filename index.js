@@ -10,11 +10,6 @@
 var DioscouriCore = process.mainModule.require('dioscouri-core');
 
 /**
- *  Navigation model from nodejs-admin app
- */
-var NavigationModel = DioscouriCore.ApplicationFacade.instance.registry.load('Admin.Models.Navigation');
-
-/**
  * Loader class for the model
  */
 class Loader extends DioscouriCore.AppBootstrap {
@@ -53,6 +48,25 @@ class Loader extends DioscouriCore.AppBootstrap {
         // Loading models
         this.applicationFacade.loadModels(__dirname + '/app/models');
 
+        /**
+         * Exporting Library Classes
+         * @type {{Controllers: {Admin: {Index: (exports|module.exports)}, Front: {Index: (exports|module.exports)}}, Models: {Page: (PageModel|exports|module.exports)}}}
+         */
+        Loader.Pages = {
+            Controllers: {
+                Admin: {
+                    Index: require('./app/controllers/admin/index.js')
+                },
+                Front: {
+                    Index: require('./app/controllers/front/index.js')
+                }
+            },
+            Models: {
+                Page: require('./app/models/page.js'),
+                Category: require('./app/models/category.js')
+            }
+        };
+
         // Initializing Library Exports
         this.applicationFacade.registry.push('Pages.Controllers.Admin.Index', Loader.Pages.Controllers.Admin.Index);
         this.applicationFacade.registry.push('Pages.Controllers.Front.Index', Loader.Pages.Controllers.Front.Index);
@@ -79,6 +93,11 @@ class Loader extends DioscouriCore.AppBootstrap {
     bootstrap () {
         super.bootstrap();
 
+		/**
+		 *  Navigation model from nodejs-admin app
+		 */
+		var NavigationModel = DioscouriCore.ApplicationFacade.instance.registry.load('Admin.Models.Navigation');
+
         NavigationModel.create({
             name: 'Pages',
             icon: 'fa-file-o',
@@ -104,25 +123,6 @@ class Loader extends DioscouriCore.AppBootstrap {
     run () {
         super.run();
     };
-};
-
-/**
- * Exporting Library Classes
- * @type {{Controllers: {Admin: {Index: (exports|module.exports)}, Front: {Index: (exports|module.exports)}}, Models: {Page: (PageModel|exports|module.exports)}}}
- */
-Loader.Pages = {
-    Controllers: {
-        Admin: {
-            Index: require('./app/controllers/admin/index.js')
-        },
-        Front: {
-            Index: require('./app/controllers/front/index.js')
-        }
-    },
-    Models: {
-        Page: require('./app/models/page.js'),
-        Category: require('./app/models/category.js')
-    }
 };
 
 /**
