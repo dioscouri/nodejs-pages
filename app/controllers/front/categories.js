@@ -81,6 +81,7 @@ class CategoriesFrontController extends DioscouriCore.Controller {
             }
             if (category) {
                 this._modelPage.model.find({categories: category._id}, function (err, pages) {
+                	this.data.category = category;
                     this.data.pages = pages;
                     callback(err);
                 }.bind(this));

@@ -50,6 +50,7 @@ class PagesFrontController extends DioscouriCore.Controller {
             that.view(DioscouriCore.ModuleView.htmlView(this._viewsPath + '/front/page_slug.swig'));
             model.findOne({slug: this.data.slug}, function(error, document){
                 if (document && document.content) {
+                	that.data.page = document;
                     that.data.header = document.title;
                     that.data.pageContent = document.content;
                 }
