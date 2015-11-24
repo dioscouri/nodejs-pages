@@ -1,10 +1,8 @@
 {% extends 'app/views/front/layout.swig' %}
 
-{% block title %}{{ header }}{% endblock %}
-
 {% block section %}
 
-Categories index page
+<h2>Categories</h2>
 
 {% macro drawCheckbox(category) %}
     <h3><a href="/pages/categories/{{ category.slug }}">{{ category.name }}</a></h3>
@@ -18,6 +16,7 @@ Categories index page
     </ul>
     {% endif %}
 {% endmacro %}
+
 <ul>
     {% for category in categories %}
     <li>

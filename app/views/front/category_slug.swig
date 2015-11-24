@@ -1,16 +1,11 @@
 {% extends 'app/views/front/layout.swig' %}
 
-{% block title %}{{ header }}{% endblock %}
-
 {% block section %}
+    
+    <h2>{{ category.name }}</h2>
 
-<h1>All pages in category</h1>
-<ul>
     {% for page in pages %}
-    <li>
-        <h3><a href="/pages/{{ page.slug }}">{{ page.title }}</a></h3>
-    </li>
+        {% include "_pages.swig" with page %}
     {% endfor %}
-</ul>
 
 {% endblock %}

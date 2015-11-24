@@ -1,9 +1,11 @@
 {% extends 'app/views/front/layout.swig' %}
 
-{% block title %}{{ header }}{% endblock %}
-
 {% block section %}
 
-{% autoescape false %}{{ pageContent }}{% endautoescape %}
+<article id="page-{{page.slug}}" class="pages-page page-{{page.slug}}">
+    <h2>{{ page.title }}</h2>
+    
+    {% autoescape false %}{{ page.content }}{% endautoescape %}
+</article>
 
 {% endblock %}
