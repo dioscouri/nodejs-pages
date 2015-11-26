@@ -97,8 +97,8 @@ class PagesAdminController extends AdminBaseCrudController {
         result.content = this.request.body.content;
         result.categories = this.request.body.categories || [];
 
-        if (!result.slug && result.title) {
-            result.slug = result.title.toLowerCase().replace(/[^\w ]+/g,'').replace(/ +/g,'-')
+        if (result.slug.toString() === '' && result.title.toString() != '') {
+            result.slug = result.title.toString().toLowerCase().replace(/[^\w ]+/g,'').replace(/ +/g,'-')
         }
 
         var startDateStr = this.request.body.publication.start_date;
