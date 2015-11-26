@@ -38,7 +38,7 @@
                     {% set deleteUrl = baseUrl + '/' + row.id + '/delete' %}
                     <div class="list-group-item">
                         <div class="ckbox ckbox-primary pull-left">
-                            <input type="checkbox" id="checkbox_{{ row.id }}" name="selectedItems" value="{{ row.id }}"><label for="checkbox_{{ row.id }}"></label>
+                            <input type="checkbox" id="checkbox_{{ row.id }}" data-item-id="{{ row.id }}" name="selectedItems" value="{{ row.id }}"><label for="checkbox_{{ row.id }}"></label>
                         </div>
                         <div class="list-group-item-body">
                             <div class="pull-right media-option">
