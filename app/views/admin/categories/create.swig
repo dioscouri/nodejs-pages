@@ -24,3 +24,9 @@
 
 </form>
 {% endblock %}
+
+{% block page_js %}
+<script>
+    {% include "categories.js" %}
+</script>
+{% endblock %}

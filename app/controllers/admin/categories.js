@@ -76,6 +76,10 @@ class CategoriesAdminController extends AdminBaseCrudController {
         result.slug = this.request.body.slug;
         result.parent = this.request.body.parent || null;
 
+        if (!result.slug && result.name) {
+            result.slug = result.name.toLowerCase().replace(/[^\w ]+/g,'').replace(/ +/g,'-')
+        }
+
         return result;
     }
 

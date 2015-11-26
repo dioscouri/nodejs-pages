@@ -8,4 +8,8 @@ jQuery(document).ready(function(){
     if (CKEDITOR && $("[name='content']").length) {
         CKEDITOR.replace('content');
     }
+
+    $('.refresh-slug').click(function() {
+        $('#slug').val($('#title').val().toLowerCase().replace(/[^\w ]+/g,'').replace(/ +/g,'-'));
+    });
 });
