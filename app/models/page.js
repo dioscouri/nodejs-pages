@@ -57,6 +57,26 @@ class PageModel extends DioscouriCore.MongooseModel {
 
         this.registerSchema(PageDBOSchema);
     }
+
+    /**
+     * Validate item
+     *
+     * @param item
+     * @param validationCallback
+     */
+    validate(item, validationCallback) {
+        var validationMessages = [];
+
+        if (item.title === '') {
+            validationMessages.push('Title cannot be empty');
+        }
+
+        if (item.slug === '') {
+            validationMessages.push('Slug cannot be empty');
+        }
+
+        validationCallback(DioscouriCore.ValidationError.create(validationMessages));
+    }
 }
 
 /**

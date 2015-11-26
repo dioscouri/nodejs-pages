@@ -52,6 +52,26 @@ class CategoryModel extends DioscouriCore.MongooseModel {
 
         this.registerSchema(CategoryDBOSchema);
     }
+
+    /**
+     * Validate item
+     *
+     * @param item
+     * @param validationCallback
+     */
+    validate(item, validationCallback) {
+        var validationMessages = [];
+
+        if (item.name === '') {
+            validationMessages.push('Name cannot be empty');
+        }
+
+        if (item.slug === '') {
+            validationMessages.push('Slug cannot be empty');
+        }
+
+        validationCallback(DioscouriCore.ValidationError.create(validationMessages));
+    }
 }
 
 /**
